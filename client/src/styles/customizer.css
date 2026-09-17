@@ -1,0 +1,420 @@
+/* ==========================================================
+   BALLA'S UNIQUE BESPOKE EXPERIENCES & SENSORY STYLING
+   ========================================================== */
+
+/* Sensory Profile Bars on Product Cards & Modal */
+.sensory-meter-group {
+  background: var(--color-slate-50);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.9rem;
+  margin: 0.85rem 0;
+}
+
+.sensory-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-slate-700);
+}
+
+.sensory-metric-row:last-child {
+  margin-bottom: 0;
+}
+
+.sensory-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.sensory-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-slate-200);
+}
+
+.sensory-dot.active {
+  background: var(--color-gold-500);
+  box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
+}
+
+.sensory-dot.active-spice {
+  background: #dc2626;
+  box-shadow: 0 0 4px rgba(220, 38, 38, 0.4);
+}
+
+/* Live Batch Telemetry Tag */
+.live-batch-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.6rem;
+}
+
+.live-batch-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #dc2626;
+  animation: pulse 1.5s infinite;
+}
+
+/* Sommelier Pairing Highlight */
+.sommelier-quote-box {
+  background: #fffdfa;
+  border-left: 3px solid var(--color-gold-500);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--color-primary-900);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 0.6rem;
+}
+
+/* ==========================================================
+   INTERACTIVE CUSTOM MITHAI BOX BUILDER
+   ========================================================== */
+.custom-builder-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, #071712 0%, #0d2820 50%, #061410 100%);
+  color: #f8fafc;
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-builder-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212, 151, 46, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.custom-builder-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+
+@media (max-width: 960px) {
+  .custom-builder-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Box Visualizer Container */
+.box-chassis {
+  background: #071510;
+  border: 2px solid rgba(212, 151, 46, 0.4);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(212, 151, 46, 0.1);
+  position: relative;
+}
+
+.box-lid-crest {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.box-slots-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.box-slots-grid.slots-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.box-slots-grid.slots-6 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.box-slots-grid.slots-9 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.compartment-slot {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px dashed rgba(217, 119, 6, 0.4);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.compartment-slot:hover {
+  background: rgba(217, 119, 6, 0.12);
+  border-color: var(--color-gold-400);
+  transform: scale(1.02);
+}
+
+.compartment-slot.filled {
+  border-style: solid;
+  border-color: var(--color-gold-500);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.slot-item-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-gold-400);
+  margin-bottom: 0.4rem;
+}
+
+.slot-clear-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+}
+
+/* Customizer Right Control Panel */
+.custom-controls-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+}
+
+.size-selector-pills {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.size-pill-option {
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.size-pill-option.active {
+  background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-700));
+  border-color: var(--color-gold-400);
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+}
+
+/* Sweet Tray Drawer (Pick Sweets for Selected Slot) */
+.sweet-picker-tray {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.sweet-picker-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.4rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.sweet-picker-item:hover {
+  background: rgba(217, 119, 6, 0.2);
+  border-color: var(--color-gold-500);
+  transform: translateY(-2px);
+}
+
+.sweet-picker-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.4rem;
+}
+
+/* Personalized Gift Note Card & Wax Seal */
+.gift-message-envelope {
+  background: #fffdfa;
+  color: #1e293b;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--color-gold-400);
+}
+
+.wax-seal-selector {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.wax-seal-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #991b1b;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+}
+
+.wax-seal-option.active {
+  border-color: #fbbf24;
+  transform: scale(1.15);
+}
+
+/* ==========================================================
+   SIGNATURE TASTING FLIGHT BANNER
+   ========================================================== */
+.tasting-flight-strip {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%);
+  border: 2px solid var(--color-gold-400);
+  border-radius: var(--radius-xl);
+  padding: 2rem 2.5rem;
+  margin: 3.5rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 12px 30px rgba(217, 119, 6, 0.15);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.tasting-flight-info h3 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-primary-900);
+}
+
+.flight-delicacies-mini-list {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.flight-mini-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================
+   FLOATING ACTION DOCK (BOTTOM QUICK-BAR)
+   ========================================================== */
+.floating-action-dock {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 990;
+  background: rgba(22, 6, 14, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 0.4s ease;
+}
+
+.dock-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  background: transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dock-action-btn:hover,
+.dock-action-btn.highlight {
+  background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-700));
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+}
+
+/* Corporate Concierge Modal */
+.concierge-range-slider {
+  width: 100%;
+  accent-color: var(--color-gold-600);
+  margin: 1rem 0;
+}
+
+.foil-stamp-preview-box {
+  background: #081712;
+  border: 2px solid var(--color-gold-500);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--color-gold-400);
+  font-family: var(--font-serif);
+  letter-spacing: 0.15em;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+}

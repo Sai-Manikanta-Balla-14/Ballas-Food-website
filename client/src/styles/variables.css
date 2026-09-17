@@ -1,0 +1,77 @@
+:root {
+  /* Color Palette - Royal Heritage Sweets & Pure Ghee Confectionery (Classy Emerald & Gold) */
+  --color-primary-900: #0a2019;
+  --color-primary-800: #123329;
+  --color-primary-700: #1a473a;
+  --color-primary-600: #255e4d;
+  --color-primary-500: #337d68;
+
+  --color-gold-900: #6b4308;
+  --color-gold-700: #99620b;
+  --color-gold-600: #b87714;
+  --color-gold-500: #d4972e;
+  --color-gold-400: #e5b356;
+  --color-gold-100: #fdf5e2;
+  --color-gold-50: #fcf9f2;
+
+  --color-emerald-700: #047857;
+  --color-emerald-600: #059669;
+  --color-emerald-500: #10b981;
+  --color-emerald-100: #d1fae5;
+
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+
+  /* Backgrounds */
+  --bg-canvas: #faf8f5;
+  --bg-surface: #ffffff;
+  --bg-surface-warm: #f5f2eb;
+  --bg-surface-glass: rgba(255, 255, 255, 0.88);
+  --bg-surface-dark: #081712;
+  --bg-surface-card: #ffffff;
+
+  /* Borders & Dividers */
+  --border-subtle: #eae4d8;
+  --border-medium: #ded6c6;
+  --border-gold: rgba(212, 151, 46, 0.35);
+  --border-glass: rgba(255, 255, 255, 0.25);
+
+  /* Shadows - Subtle, Classy, High-End */
+  --shadow-xs: 0 1px 2px rgba(10, 32, 25, 0.04);
+  --shadow-sm: 0 2px 8px rgba(10, 32, 25, 0.05);
+  --shadow-md: 0 6px 20px rgba(10, 32, 25, 0.07);
+  --shadow-lg: 0 12px 32px rgba(10, 32, 25, 0.10);
+  --shadow-xl: 0 20px 48px rgba(10, 32, 25, 0.14);
+  --shadow-glow: 0 0 25px rgba(212, 151, 46, 0.28);
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-display: 'Cinzel', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Inter', monospace, sans-serif;
+
+  /* Border Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 500ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Container & Layout */
+  --max-width-container: 1280px;
+  --header-height: 84px;
+  --announcement-height: 38px;
+}

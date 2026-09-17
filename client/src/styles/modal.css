@@ -1,0 +1,374 @@
+/* Product Detail Modal (Vellanki Foods Style) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.product-modal-card {
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  max-width: 960px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  animation: modalScaleUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-slate-100);
+  color: var(--color-slate-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  z-index: 10;
+  transition: all var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background: var(--color-primary-800);
+  color: white;
+}
+
+.modal-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 2rem;
+  padding: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .modal-content-grid {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+}
+
+/* Modal Gallery */
+.modal-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-main-image-wrap {
+  width: 100%;
+  height: 360px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #f8fafc;
+  border: 1px solid var(--border-medium);
+  position: relative;
+}
+
+.modal-main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.modal-main-image-wrap:hover .modal-main-image {
+  transform: scale(1.1);
+}
+
+.modal-guarantees-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.modal-guarantee-box {
+  background: var(--color-gold-50);
+  border: 1px solid var(--border-subtle);
+  padding: 0.6rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.modal-guarantee-box i {
+  color: var(--color-gold-700);
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.modal-guarantee-box span {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-primary-900);
+}
+
+/* Modal Details */
+.modal-product-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-origin-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-gold-700);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+
+.modal-product-title {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--color-primary-900);
+  margin-bottom: 0.35rem;
+}
+
+.modal-telugu-name {
+  font-size: 1rem;
+  color: var(--color-primary-700);
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.modal-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-medium);
+  margin-bottom: 1.25rem;
+}
+
+.modal-price-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-current-price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary-900);
+}
+
+.modal-original-price {
+  font-size: 1.1rem;
+  color: var(--color-slate-400);
+  text-decoration: line-through;
+}
+
+.modal-save-pill {
+  background: var(--color-emerald-100);
+  color: var(--color-emerald-700);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+/* Weight Variant Selector in Modal */
+.modal-variants-section {
+  margin-bottom: 1.5rem;
+}
+
+.modal-variants-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-slate-700);
+  margin-bottom: 0.6rem;
+}
+
+.modal-variants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.75rem;
+}
+
+.modal-variant-card {
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  transition: all var(--transition-fast);
+}
+
+.modal-variant-card.active {
+  border-color: var(--color-gold-600);
+  background: var(--color-gold-50);
+  box-shadow: 0 0 0 1px var(--color-gold-600);
+}
+
+.modal-variant-weight {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-primary-900);
+}
+
+.modal-variant-price {
+  font-size: 0.85rem;
+  color: var(--color-slate-600);
+  margin-top: 0.2rem;
+}
+
+/* Quantity & CTA Row */
+.modal-action-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.qty-counter {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  background: white;
+}
+
+.qty-btn {
+  width: 40px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--color-slate-700);
+  transition: background var(--transition-fast);
+}
+
+.qty-btn:hover {
+  background: var(--color-slate-100);
+}
+
+.qty-value {
+  width: 44px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-primary-900);
+}
+
+.modal-add-cart-btn {
+  flex: 1;
+  height: 46px;
+}
+
+/* Pincode Checker */
+.pincode-checker-box {
+  background: var(--color-slate-50);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.pincode-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-slate-800);
+  margin-bottom: 0.5rem;
+}
+
+.pincode-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pincode-input-row input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.pincode-check-btn {
+  padding: 0.5rem 1rem;
+  background: var(--color-primary-900);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.pincode-status {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.pincode-status.success {
+  color: var(--color-emerald-700);
+}
+
+/* Tab Navigation inside Modal */
+.modal-tabs-nav {
+  display: flex;
+  border-bottom: 1px solid var(--border-medium);
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-tab-btn {
+  padding: 0.6rem 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-slate-500);
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.modal-tab-btn.active {
+  color: var(--color-primary-800);
+  border-color: var(--color-primary-800);
+  font-weight: 700;
+}
+
+.modal-tab-content {
+  font-size: 0.9rem;
+  color: var(--color-slate-700);
+  line-height: 1.6;
+}
+
+.ingredients-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin-top: 0.5rem;
+}
+
+.ingredient-tag {
+  background: var(--color-gold-50);
+  border: 1px solid var(--color-gold-400);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--color-gold-900);
+  font-weight: 600;
+}
