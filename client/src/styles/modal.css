@@ -372,3 +372,60 @@
   color: var(--color-gold-900);
   font-weight: 600;
 }
+
+/* Modal Stock Alerts & Sold Out UI */
+.modal-stock-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+}
+
+.modal-stock-banner.out-of-stock {
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  color: #991b1b;
+}
+
+.modal-stock-banner.low-stock {
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  color: #92400e;
+}
+
+.modal-sold-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 5;
+}
+
+.modal-variant-card.modal-variant-out {
+  opacity: 0.6;
+  background: var(--color-slate-100);
+  border-color: var(--border-medium);
+}
+
+.modal-var-tag-sold {
+  display: block;
+  font-size: 0.68rem;
+  color: #dc2626;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.modal-add-cart-btn.disabled {
+  background: var(--color-slate-300);
+  color: var(--color-slate-600);
+  cursor: not-allowed;
+  border-color: var(--color-slate-300);
+  box-shadow: none;
+}
+
+.modal-add-cart-btn.disabled:hover {
+  background: var(--color-slate-300);
+  transform: none;
+}
+

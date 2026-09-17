@@ -15,6 +15,8 @@ const ProductDetailModalContent = ({ product, onClose, addToCart, formatPrice, s
   const [pincodeMessage, setPincodeMessage] = useState(null);
 
   const activeVariant = product.variants?.[selectedVariantIndex] || product.variants?.[0] || { weight: "500g", price: 300 };
+  const isOutOfStock = product.stock === 0 || !activeVariant.inStock;
+  const isLowStock = !isOutOfStock && product.stock <= 20;
   const reviews = reviewsData[product.id] || reviewsData["tapeswaram-kaja"] || [];
 
   const handlePincodeCheck = (e) => {
@@ -30,6 +32,7 @@ const ProductDetailModalContent = ({ product, onClose, addToCart, formatPrice, s
   };
 
   const handleBuyNow = () => {
+    if (isOutOfStock) return;
     addToCart(product, activeVariant, quantity);
     onClose();
     setIsCheckoutOpen(true);
@@ -41,51 +44,54 @@ const ProductDetailModalContent = ({ product, onClose, addToCart, formatPrice, s
       onClick={onClose}
       role="dialog"
       aria-modal="true"
+      aria-labelledby="modal-title"
     >
-      <div
-        className="product-modal-card"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close Button */}
-        <button
-          className="modal-close-btn"
-          onClick={onClose}
-          aria-label="Close product view"
-        >
+      <div className="modal-container product-detail-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
           <i className="fa-solid fa-xmark"></i>
         </button>
 
-        <div className="modal-content-grid">
-          {/* Left Column: Image Gallery & Guarantees */}
-          <div className="modal-gallery">
-            <div className="modal-main-image-wrap">
+        <div className="modal-body-grid">
+          {/* Left Column: Media Presentation */}
+          <div className="modal-media-col">
+            <div className={`modal-img-wrap ${isOutOfStock ? "media-out-of-stock" : ""}`}>
               <img
                 src={product.image}
                 alt={product.name}
-                className="modal-main-image"
+                className="modal-main-img"
+                onError={(e) => { e.target.src = "/images/tapeswaram_kaja.jpg"; }}
               />
+              {isOutOfStock ? (
+                <div className="badge-sold-out modal-sold-badge">
+                  <i className="fa-solid fa-ban" style={{ marginRight: "0.4rem" }}></i>
+                  Sold Out
+                </div>
+              ) : (
+                product.badge && <div className="modal-badge-float">{product.badge}</div>
+              )}
             </div>
 
-            <div className="modal-guarantees-row">
-              <div className="modal-guarantee-box">
-                <i className="fa-solid fa-droplet"></i>
-                <span>100% Pure Ghee</span>
+            {/* Live Crafting Telemetry Badge */}
+            {product.liveBatch && !isOutOfStock && (
+              <div className="modal-crafting-card">
+                <div className="crafting-card-title">
+                  <span className="live-batch-dot"></span>
+                  <span>Kitchen Batch Telemetry (Live)</span>
+                </div>
+                <div className="crafting-details">
+                  <div><strong>Batch Code:</strong> {product.liveBatch.batchId}</div>
+                  <div><strong>Prepared:</strong> {product.liveBatch.timeAgo}</div>
+                  <div><strong>Craftsman:</strong> {product.liveBatch.craftsman}</div>
+                  <div><strong>Method:</strong> {product.liveBatch.temperature}</div>
+                </div>
               </div>
-              <div className="modal-guarantee-box">
-                <i className="fa-solid fa-calendar-check"></i>
-                <span>{product.shelfLifeDays} Days Shelf Life</span>
-              </div>
-              <div className="modal-guarantee-box">
-                <i className="fa-solid fa-plane"></i>
-                <span>Global Courier</span>
-              </div>
-            </div>
+            )}
           </div>
 
-          {/* Right Column: Details, Sizes, Add to Cart */}
-          <div className="modal-product-details">
-            <span className="modal-origin-badge">
-              <i className="fa-solid fa-location-dot" style={{ marginRight: "0.3rem" }}></i>
+          {/* Right Column: Culinary Details & Purchasing */}
+          <div className="modal-info-col">
+            <span className="modal-origin-crumb">
+              <i className="fa-solid fa-location-dot" style={{ color: "var(--color-gold-700)", marginRight: "0.3rem" }}></i>
               {product.origin}
             </span>
 
@@ -122,18 +128,47 @@ const ProductDetailModalContent = ({ product, onClose, addToCart, formatPrice, s
             <div className="modal-variants-section">
               <div className="modal-variants-title">Select Pack Weight:</div>
               <div className="modal-variants-grid">
-                {product.variants.map((v, idx) => (
-                  <div
-                    key={idx}
-                    className={`modal-variant-card ${idx === selectedVariantIndex ? "active" : ""}`}
-                    onClick={() => setSelectedVariantIndex(idx)}
-                  >
-                    <div className="modal-variant-weight">{v.weight}</div>
-                    <div className="modal-variant-price">{formatPrice(v.price)}</div>
-                  </div>
-                ))}
+                {product.variants.map((v, idx) => {
+                  const isVarOut = product.stock === 0 || !v.inStock;
+                  return (
+                    <div
+                      key={idx}
+                      className={`modal-variant-card ${idx === selectedVariantIndex ? "active" : ""} ${isVarOut ? "modal-variant-out" : ""}`}
+                      onClick={() => setSelectedVariantIndex(idx)}
+                    >
+                      <div className="modal-variant-weight">
+                        {v.weight}
+                        {isVarOut && <span className="modal-var-tag-sold">Sold Out</span>}
+                      </div>
+                      <div className="modal-variant-price">{formatPrice(v.price)}</div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
+
+            {/* Live Stock Notification Banner */}
+            {isOutOfStock ? (
+              <div className="modal-stock-banner out-of-stock">
+                <i className="fa-solid fa-ban" style={{ fontSize: "1.25rem" }}></i>
+                <div>
+                  <strong>Currently Sold Out</strong>
+                  <div style={{ fontSize: "0.8rem", opacity: 0.9, marginTop: "0.15rem" }}>
+                    Our master artisans are simmering the next fresh batch. Available again shortly!
+                  </div>
+                </div>
+              </div>
+            ) : isLowStock ? (
+              <div className="modal-stock-banner low-stock">
+                <i className="fa-solid fa-fire-burner" style={{ fontSize: "1.25rem" }}></i>
+                <div>
+                  <strong>Fresh Kitchen Batch: Only {product.stock} units remaining!</strong>
+                  <div style={{ fontSize: "0.8rem", opacity: 0.9, marginTop: "0.15rem" }}>
+                    Order now to guarantee delivery before this batch sells out.
+                  </div>
+                </div>
+              </div>
+            ) : null}
 
             {/* Quantity and Actions */}
             <div className="modal-action-row">
@@ -141,14 +176,16 @@ const ProductDetailModalContent = ({ product, onClose, addToCart, formatPrice, s
                 <button
                   className="qty-btn"
                   onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                  disabled={isOutOfStock}
                   aria-label="Decrease quantity"
                 >
                   <i className="fa-solid fa-minus"></i>
                 </button>
-                <div className="qty-value">{quantity}</div>
+                <div className="qty-value">{isOutOfStock ? 0 : quantity}</div>
                 <button
                   className="qty-btn"
-                  onClick={() => setQuantity(prev => prev + 1)}
+                  onClick={() => setQuantity(prev => (product.stock ? Math.min(product.stock, prev + 1) : prev + 1))}
+                  disabled={isOutOfStock || (product.stock && quantity >= product.stock)}
                   aria-label="Increase quantity"
                 >
                   <i className="fa-solid fa-plus"></i>
@@ -156,23 +193,28 @@ const ProductDetailModalContent = ({ product, onClose, addToCart, formatPrice, s
               </div>
 
               <button
-                className="btn-primary modal-add-cart-btn"
+                className={`btn-primary modal-add-cart-btn ${isOutOfStock ? "disabled" : ""}`}
+                disabled={isOutOfStock}
                 onClick={() => {
-                  addToCart(product, activeVariant, quantity);
-                  setSelectedProductModal(null);
+                  if (!isOutOfStock) {
+                    addToCart(product, activeVariant, quantity);
+                    onClose();
+                  }
                 }}
               >
-                <i className="fa-solid fa-bag-shopping"></i>
-                Add To Cart
+                <i className={isOutOfStock ? "fa-solid fa-ban" : "fa-solid fa-bag-shopping"}></i>
+                {isOutOfStock ? "Sold Out" : "Add To Cart"}
               </button>
 
-              <button
-                className="btn-gold"
-                style={{ height: "46px" }}
-                onClick={handleBuyNow}
-              >
-                Buy Now
-              </button>
+              {!isOutOfStock && (
+                <button
+                  className="btn-gold"
+                  style={{ height: "46px" }}
+                  onClick={handleBuyNow}
+                >
+                  Buy Now
+                </button>
+              )}
             </div>
 
             {/* Pincode Delivery Availability */}
@@ -334,13 +376,15 @@ const ProductDetailModalContent = ({ product, onClose, addToCart, formatPrice, s
 };
 
 export const ProductDetailModal = () => {
-  const { selectedProductModal, setSelectedProductModal, addToCart, formatPrice, setIsCheckoutOpen } = useStore();
+  const { selectedProductModal, setSelectedProductModal, addToCart, formatPrice, setIsCheckoutOpen, products } = useStore();
 
   if (!selectedProductModal) return null;
 
+  const liveProduct = products.find(p => p.id === selectedProductModal.id) || selectedProductModal;
+
   return (
     <ProductDetailModalContent
-      product={selectedProductModal}
+      product={liveProduct}
       onClose={() => setSelectedProductModal(null)}
       addToCart={addToCart}
       formatPrice={formatPrice}

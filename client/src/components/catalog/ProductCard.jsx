@@ -11,21 +11,32 @@ export const ProductCard = ({ product }) => {
   );
 
   const activeVariant = product.variants[selectedVariantIndex] || product.variants[0];
+  const isOutOfStock = product.stock === 0 || !activeVariant.inStock;
+  const isLowStock = !isOutOfStock && product.stock <= 20;
 
   return (
-    <article className="product-card">
+    <article className={`product-card ${isOutOfStock ? "card-out-of-stock" : ""}`}>
       {/* Media Image & Badges */}
-      <div className="product-card-media">
+      <div className={`product-card-media ${isOutOfStock ? "media-out-of-stock" : ""}`}>
         <img
           src={product.image}
           alt={product.name}
           className="product-card-img"
           loading="lazy"
+          onError={(e) => { e.target.src = "/images/tapeswaram_kaja.jpg"; }}
         />
 
         {/* Top Badges */}
         <div className="card-badges">
-          {product.badge && <span className="badge-tag">{product.badge}</span>}
+          {isOutOfStock ? (
+            <span className="badge-sold-out">
+              <i className="fa-solid fa-ban" style={{ marginRight: "0.25rem" }}></i>
+              Sold Out
+            </span>
+          ) : (
+            product.badge && <span className="badge-tag">{product.badge}</span>
+          )}
+
           {product.isPureGhee && (
             <span className="badge-ghee">
               <i className="fa-solid fa-droplet"></i> Pure Ghee
@@ -49,13 +60,23 @@ export const ProductCard = ({ product }) => {
 
       {/* Card Content Body */}
       <div className="product-card-body">
-        {/* Live Batch Pulse */}
-        {product.liveBatch && (
+        {/* Live Batch / Stock Status Pulse */}
+        {isOutOfStock ? (
+          <div className="live-batch-pill stock-pill-sold-out">
+            <span className="live-batch-dot dot-red"></span>
+            <span>Sold Out • Simmering Next Batch</span>
+          </div>
+        ) : isLowStock ? (
+          <div className="live-batch-pill stock-pill-low">
+            <span className="live-batch-dot dot-amber"></span>
+            <span>Only {product.stock} units left in kitchen!</span>
+          </div>
+        ) : product.liveBatch ? (
           <div className="live-batch-pill">
             <span className="live-batch-dot"></span>
             <span>Batch {product.liveBatch.batchId} • {product.liveBatch.timeAgo}</span>
           </div>
-        )}
+        ) : null}
 
         <span className="product-origin">{product.origin}</span>
         <span className="product-telugu-name">{product.teluguName}</span>
@@ -96,20 +117,26 @@ export const ProductCard = ({ product }) => {
             <span>Select Weight:</span>
             <span style={{ color: "var(--color-primary-900)", fontWeight: 700 }}>
               {activeVariant.weight}
+              {(!activeVariant.inStock || product.stock === 0) && (
+                <span style={{ color: "#dc2626", fontSize: "0.75rem", marginLeft: "0.4rem" }}>(Sold Out)</span>
+              )}
             </span>
           </div>
 
           <div className="variant-pills-group">
-            {product.variants.map((variant, vIdx) => (
-              <button
-                key={vIdx}
-                className={`variant-pill-btn ${vIdx === selectedVariantIndex ? "selected" : ""}`}
-                onClick={() => setSelectedVariantIndex(vIdx)}
-                title={`Select ${variant.weight}`}
-              >
-                {variant.weight.split(" ")[0]}
-              </button>
-            ))}
+            {product.variants.map((variant, vIdx) => {
+              const isVarUnavailable = product.stock === 0 || !variant.inStock;
+              return (
+                <button
+                  key={vIdx}
+                  className={`variant-pill-btn ${vIdx === selectedVariantIndex ? "selected" : ""} ${isVarUnavailable ? "variant-btn-disabled" : ""}`}
+                  onClick={() => setSelectedVariantIndex(vIdx)}
+                  title={isVarUnavailable ? `${variant.weight} is currently Sold Out` : `Select ${variant.weight}`}
+                >
+                  {variant.weight.split(" ")[0]}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -123,12 +150,22 @@ export const ProductCard = ({ product }) => {
           </div>
 
           <button
-            className="add-cart-btn"
-            onClick={() => addToCart(product, activeVariant, 1)}
-            aria-label={`Add ${product.name} to cart`}
+            className={`add-cart-btn ${isOutOfStock ? "btn-sold-out" : ""}`}
+            disabled={isOutOfStock}
+            onClick={() => !isOutOfStock && addToCart(product, activeVariant, 1)}
+            aria-label={isOutOfStock ? `${product.name} is Sold Out` : `Add ${product.name} to cart`}
           >
-            <i className="fa-solid fa-plus"></i>
-            Add
+            {isOutOfStock ? (
+              <>
+                <i className="fa-solid fa-ban"></i>
+                Sold Out
+              </>
+            ) : (
+              <>
+                <i className="fa-solid fa-plus"></i>
+                Add
+              </>
+            )}
           </button>
         </div>
       </div>
