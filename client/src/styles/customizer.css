@@ -418,3 +418,71 @@
   margin-top: 1rem;
   box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
 }
+
+/* ==========================================================
+   Custom Box Builder & Dock Responsive Breakpoints
+   ========================================================== */
+@media (max-width: 960px) {
+  .custom-builder-section {
+    padding: 3.5rem 0;
+  }
+  .box-chassis {
+    padding: 1.5rem;
+  }
+  .custom-controls-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .custom-builder-section {
+    padding: 2.5rem 0;
+  }
+  .box-chassis {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+  .box-slots-grid.slots-6 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .compartment-slot {
+    padding: 0.5rem;
+  }
+  .slot-item-thumb {
+    width: 46px;
+    height: 46px;
+  }
+
+  /* Floating Dock Mobile Adaptation */
+  .floating-action-dock {
+    bottom: 0.75rem;
+    padding: 0.35rem 0.5rem;
+    gap: 0.35rem;
+    max-width: calc(100vw - 1.25rem);
+  }
+  .dock-action-btn {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.75rem;
+    gap: 0.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-action-dock {
+    justify-content: space-around;
+  }
+  .dock-action-btn span {
+    font-size: 0.72rem;
+  }
+  .dock-action-btn:nth-child(3) span {
+    display: none; /* Show icon only for 'Bulk & Corporate' on ultra-small screens */
+  }
+  .size-selector-pills {
+    flex-direction: column;
+  }
+  .size-pill-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+

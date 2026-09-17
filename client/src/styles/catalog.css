@@ -398,3 +398,71 @@
   transform: none;
 }
 
+/* ==========================================================
+   Catalog & Products Responsive Breakpoints
+   ========================================================== */
+@media (max-width: 1024px) {
+  .catalog-section {
+    padding: 3.5rem 0;
+  }
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-section {
+    padding: 2.5rem 0;
+  }
+  .search-and-sort {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .search-input-box {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .sort-select {
+    width: 100%;
+  }
+  .category-tabs {
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .product-card-media {
+    height: 200px;
+  }
+  .product-card-body {
+    padding: 1.25rem;
+  }
+  .current-price {
+    font-size: 1.2rem;
+  }
+  .add-cart-btn {
+    padding: 0.55rem 0.95rem;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-card-body {
+    padding: 1rem;
+  }
+  .card-variants-selector {
+    margin-top: 0.75rem;
+  }
+  .variant-pills-group {
+    gap: 0.35rem;
+  }
+}
+
+

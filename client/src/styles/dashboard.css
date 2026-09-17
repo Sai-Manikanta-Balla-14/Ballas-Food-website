@@ -587,3 +587,92 @@
   color: white;
 }
 
+/* ==========================================================
+   Dashboard & Admin Operations Responsive Breakpoints
+   ========================================================== */
+@media (max-width: 1024px) {
+  .kpi-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-view-wrapper {
+    padding: 2rem 0 4rem;
+  }
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .dashboard-header > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .dashboard-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+  }
+  .dash-tab-btn {
+    white-space: nowrap;
+    padding: 0.6rem 1rem;
+    font-size: 0.88rem;
+  }
+  .admin-catalog-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .admin-catalog-toolbar button {
+    width: 100%;
+    justify-content: center;
+  }
+  .admin-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .admin-search-wrap {
+    min-width: 100%;
+  }
+  .stock-filter-chips {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
+  }
+  .tracking-timeline {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .tracking-timeline::before {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .kpi-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .kpi-card {
+    padding: 1.15rem;
+  }
+  .dashboard-card-panel {
+    padding: 1.25rem 1rem;
+  }
+  .admin-product-modal {
+    padding: 1.25rem;
+  }
+  .admin-form-card > div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+  }
+  .admin-form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+
