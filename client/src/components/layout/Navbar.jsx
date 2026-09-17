@@ -110,7 +110,7 @@ export const Navbar = () => {
         <div className="header-action-group">
           {/* Quick Search Shortcut */}
           <button
-            className="header-icon-button"
+            className="header-icon-button search-shortcut"
             onClick={() => handleCategoryNav("all", "catalog")}
             title="Search Delicacies"
             aria-label="Search"
@@ -120,7 +120,7 @@ export const Navbar = () => {
 
           {/* Account Profile / Auth Modal */}
           <button
-            className="header-icon-button"
+            className="header-icon-button auth-shortcut"
             onClick={() => setIsAuthOpen(true)}
             title={user ? `Signed in as ${user.name}` : "Sign In"}
             aria-label="Account"
@@ -130,7 +130,7 @@ export const Navbar = () => {
 
           {/* Cart Drawer Trigger */}
           <button
-            className="header-icon-button"
+            className="header-icon-button cart-header-btn"
             onClick={() => setIsCartOpen(true)}
             title="View Shopping Cart"
             aria-label="Shopping Cart"
@@ -143,7 +143,7 @@ export const Navbar = () => {
 
           {/* Dashboard / Tracking Switcher */}
           <button
-            className="header-cta-portal"
+            className="header-cta-portal portal-desktop-only"
             onClick={() => setActiveView(activeView === "dashboard" ? "storefront" : "dashboard")}
             title={user.role === "admin" ? "Open Store Administration" : "Track Your Orders"}
           >
