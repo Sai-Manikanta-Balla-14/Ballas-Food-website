@@ -30,8 +30,8 @@ export const TastingFlightBanner = () => {
           <span className="badge-tag" style={{ background: "var(--color-primary-800)", color: "#fff", marginBottom: "0.4rem" }}>
             ⭐ Connoisseur's Sampler Edition
           </span>
-          <h3>Can't Decide? Experience Balla's Signature Tasting Flight</h3>
-          <p style={{ fontSize: "0.9rem", color: "var(--color-slate-700)", maxWidth: "580px", marginTop: "0.25rem" }}>
+          <h3 className="tasting-flight-title">Can't Decide? Experience Balla's Signature Tasting Flight</h3>
+          <p className="tasting-flight-desc">
             A curated degustation box containing fresh portions of Tapeswaram Kaja, Bellam Pootharekulu, Bandar Laddu, Butter Chegodilu & Grandmother's Mango Avakaya in a keepsake gold tin.
           </p>
 
@@ -41,23 +41,23 @@ export const TastingFlightBanner = () => {
             <img src="/images/bandar_laddu.jpg" alt="Laddu" className="flight-mini-avatar" title="Bandar Laddu" />
             <img src="/images/murukku_chegodilu.jpg" alt="Chegodilu" className="flight-mini-avatar" title="Butter Chegodilu" />
             <img src="/images/andhra_avakaya.jpg" alt="Avakaya" className="flight-mini-avatar" title="Mango Avakaya" />
-            <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--color-primary-900)", marginLeft: "0.4rem" }}>
+            <span className="flight-icons-count">
               5 Signature Icons
             </span>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: "0.75rem", color: "var(--color-slate-500)", textDecoration: "line-through" }}>
+        <div className="tasting-flight-action">
+          <div className="tasting-flight-pricing">
+            <div className="tasting-flight-original-price">
               {formatPrice(650)}
             </div>
-            <div style={{ fontSize: "1.75rem", fontWeight: 900, color: "var(--color-primary-900)" }}>
+            <div className="tasting-flight-price">
               {formatPrice(499)}
             </div>
           </div>
 
-          <button className="btn-gold" onClick={handleAddFlight} style={{ padding: "0.85rem 1.6rem" }}>
+          <button className="btn-gold tasting-flight-btn" onClick={handleAddFlight}>
             <i className="fa-solid fa-cart-plus" style={{ marginRight: "0.4rem" }}></i>
             Get Tasting Flight
           </button>

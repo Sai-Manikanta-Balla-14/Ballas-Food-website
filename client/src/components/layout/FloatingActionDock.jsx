@@ -17,7 +17,7 @@ export const FloatingActionDock = ({ onOpenConcierge }) => {
         title="Custom Mithai Box Studio"
       >
         <i className="fa-solid fa-wand-magic-sparkles"></i>
-        <span>Build Gift Box</span>
+        <span>Build Box</span>
       </button>
 
       <button
@@ -26,7 +26,7 @@ export const FloatingActionDock = ({ onOpenConcierge }) => {
         title="Explore All Delicacies"
       >
         <i className="fa-solid fa-cookie-bite"></i>
-        <span>Catalog</span>
+        <span>Delicacies</span>
       </button>
 
       <button
@@ -35,17 +35,19 @@ export const FloatingActionDock = ({ onOpenConcierge }) => {
         title="Corporate & Wedding Inquiries"
       >
         <i className="fa-solid fa-building"></i>
-        <span>Bulk & Corporate</span>
+        <span>VIP & Bulk</span>
       </button>
 
       <button
         className="dock-action-btn"
         onClick={() => setIsCartOpen(true)}
         title="Open Cart"
-        style={{ background: "rgba(255, 255, 255, 0.12)" }}
       >
-        <i className="fa-solid fa-bag-shopping"></i>
-        <span>Cart {cartCount > 0 && `(${cartCount})`}</span>
+        <div className="dock-cart-icon-wrap">
+          <i className="fa-solid fa-bag-shopping"></i>
+          {cartCount > 0 && <span className="dock-cart-badge">{cartCount}</span>}
+        </div>
+        <span>Cart</span>
       </button>
     </div>
   );

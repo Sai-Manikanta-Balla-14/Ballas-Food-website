@@ -38,7 +38,7 @@ export const CorporateConciergeModal = ({ isOpen, onClose }) => {
             <i className="fa-solid fa-building" style={{ marginRight: "0.3rem" }}></i>
             Balla's Corporate & Wedding Concierge
           </span>
-          <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.8rem", color: "var(--color-primary-900)" }}>
+          <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.25rem, 3.5vw, 1.75rem)", color: "var(--color-primary-900)" }}>
             Bespoke Bulk Gifting & Foil Stamping
           </h2>
           <p style={{ fontSize: "0.85rem", color: "var(--color-slate-500)" }}>
@@ -68,7 +68,7 @@ export const CorporateConciergeModal = ({ isOpen, onClose }) => {
               className="concierge-range-slider"
             />
 
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "var(--color-slate-500)" }}>
+            <div className="concierge-tier-labels">
               <span>20 Boxes (15% Off)</span>
               <span>75 Boxes (22% Off)</span>
               <span>150+ Boxes (30% Off)</span>
@@ -92,7 +92,7 @@ export const CorporateConciergeModal = ({ isOpen, onClose }) => {
               <div style={{ fontSize: "0.72rem", color: "rgba(245, 158, 11, 0.7)", letterSpacing: "0.2em", textTransform: "uppercase" }}>
                 BALLA'S CONFECTIONERY STUDIO
               </div>
-              <div style={{ margin: "0.4rem 0", fontSize: "1.4rem", fontWeight: 900, textShadow: "0 0 10px rgba(251, 191, 36, 0.5)" }}>
+              <div className="foil-stamp-title">
                 ⚜️ {embossedName || "YOUR BRAND HERE"} ⚜️
               </div>
               <div style={{ fontSize: "0.7rem", color: "rgba(245, 158, 11, 0.7)", letterSpacing: "0.15em" }}>

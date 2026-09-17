@@ -221,3 +221,16 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.05rem;
   color: var(--color-slate-600);
 }
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 640px) {
+  .app-layout {
+    padding-bottom: 4rem; /* Clearance for floating quick action dock */
+  }
+}
+
