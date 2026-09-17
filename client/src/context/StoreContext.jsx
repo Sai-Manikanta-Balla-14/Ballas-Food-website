@@ -4,7 +4,18 @@ import { initialProducts } from "../data/mockProducts.js";
 const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState(() => {
+    try {
+      const saved = localStorage.getItem("heritage_products");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // fallback
+    }
+    return initialProducts;
+  });
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("heritage_cart");
     return saved ? JSON.parse(saved) : [];
@@ -80,6 +91,11 @@ export const StoreProvider = ({ children }) => {
     localStorage.setItem("heritage_cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Sync products to local storage
+  useEffect(() => {
+    localStorage.setItem("heritage_products", JSON.stringify(products));
+  }, [products]);
+
   // Sync user to local storage
   useEffect(() => {
     localStorage.setItem("heritage_user", JSON.stringify(user));
@@ -127,6 +143,15 @@ export const StoreProvider = ({ children }) => {
   }, [cartSubtotal, activeCoupon]);
 
   const addToCart = (product, selectedVariant, quantity = 1) => {
+    // Check live stock status from products state
+    const liveProd = products.find(p => p.id === product.id) || product;
+    const isOutOfStock = liveProd.stock === 0 || !selectedVariant.inStock;
+
+    if (isOutOfStock) {
+      showToast(`Sorry, "${product.name}" (${selectedVariant.weight}) is currently sold out.`, "error");
+      return;
+    }
+
     setCart(prevCart => {
       const existingIndex = prevCart.findIndex(
         item => item.id === product.id && item.weight === selectedVariant.weight
@@ -284,19 +309,136 @@ export const StoreProvider = ({ children }) => {
 
   // Admin inventory update
   const updateProductStock = (productId, newStock, inStock) => {
+    const finalInStock = typeof inStock === "boolean" ? (inStock && newStock > 0) : (newStock > 0);
+
+    // API dispatch
+    fetch(`/api/products/${productId}/stock`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-role": "admin"
+      },
+      body: JSON.stringify({ stock: newStock, inStock: finalInStock })
+    }).catch(() => {});
+
     setProducts(prev => {
       return prev.map(p => {
         if (p.id === productId) {
           return {
             ...p,
             stock: newStock,
-            variants: p.variants.map(v => ({ ...v, inStock }))
+            variants: p.variants.map(v => ({ ...v, inStock: finalInStock }))
           };
         }
         return p;
       });
     });
-    showToast("Inventory stock status updated.");
+    showToast(`Inventory updated: ${newStock} units (${finalInStock ? "In Stock" : "Out of Stock"}).`);
+  };
+
+  // Admin Add Product
+  const addProduct = async (productData) => {
+    const generatedId = productData.id || productData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + `-${Date.now().toString(36).slice(-4)}`;
+    
+    const formattedProduct = {
+      ...productData,
+      id: generatedId,
+      rating: productData.rating || 5.0,
+      reviewCount: productData.reviewCount || 1,
+      stock: Number(productData.stock) || 50,
+      isVeg: productData.isVeg !== undefined ? Boolean(productData.isVeg) : true,
+      isPureGhee: productData.isPureGhee !== undefined ? Boolean(productData.isPureGhee) : false,
+      shelfLifeDays: Number(productData.shelfLifeDays) || 25,
+      liveBatch: productData.liveBatch || {
+        batchId: `BAL-${Math.floor(1000 + Math.random() * 9000)}`,
+        timeAgo: "Just now",
+        craftsman: "Master Confectioner Balla Guild",
+        temperature: "Prepared fresh in traditional kitchen"
+      }
+    };
+
+    // Try backend sync
+    try {
+      await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-role": "admin"
+        },
+        body: JSON.stringify(formattedProduct)
+      });
+    } catch {
+      // offline fallback
+    }
+
+    setProducts(prev => [formattedProduct, ...prev]);
+    showToast(`✨ "${formattedProduct.name}" added to the catalog!`);
+    return formattedProduct;
+  };
+
+  // Admin Update Product
+  const updateProduct = async (productId, updatedData) => {
+    try {
+      await fetch(`/api/products/${productId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-role": "admin"
+        },
+        body: JSON.stringify(updatedData)
+      });
+    } catch {
+      // offline fallback
+    }
+
+    setProducts(prev => {
+      return prev.map(p => {
+        if (p.id === productId) {
+          return { ...p, ...updatedData };
+        }
+        return p;
+      });
+    });
+
+    // Update cart item thumbnails/names if modified
+    setCart(prev => prev.map(item => {
+      if (item.id === productId) {
+        return {
+          ...item,
+          name: updatedData.name || item.name,
+          image: updatedData.image || item.image
+        };
+      }
+      return item;
+    }));
+
+    showToast(`Delicacy "${updatedData.name || productId}" updated successfully.`);
+  };
+
+  // Admin Delete Product
+  const deleteProduct = async (productId) => {
+    const targetProduct = products.find(p => p.id === productId);
+    const prodName = targetProduct ? targetProduct.name : "Item";
+
+    try {
+      await fetch(`/api/products/${productId}`, {
+        method: "DELETE",
+        headers: {
+          "x-admin-role": "admin"
+        }
+      });
+    } catch {
+      // offline fallback
+    }
+
+    setProducts(prev => prev.filter(p => p.id !== productId));
+    setCart(prev => prev.filter(p => p.id !== productId));
+
+    if (selectedProductModal && selectedProductModal.id === productId) {
+      setSelectedProductModal(null);
+    }
+
+    showToast(`"${prodName}" has been removed from catalog.`, "error");
   };
 
   // Admin order status update
@@ -350,6 +492,9 @@ export const StoreProvider = ({ children }) => {
         orders,
         placeOrder,
         updateProductStock,
+        addProduct,
+        updateProduct,
+        deleteProduct,
         updateOrderStatus
       }}
     >
@@ -379,6 +524,10 @@ export const useStore = () => {
     setIsCartOpen: () => {},
     setIsCheckoutOpen: () => {},
     setSelectedProductModal: () => {},
-    setIsAuthOpen: () => {}
+    setIsAuthOpen: () => {},
+    updateProductStock: () => {},
+    addProduct: () => {},
+    updateProduct: () => {},
+    deleteProduct: () => {}
   };
 };

@@ -10,6 +10,9 @@
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 2.5rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .category-tabs {
@@ -17,8 +20,13 @@
   align-items: center;
   gap: 0.75rem;
   overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding-bottom: 0.5rem;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .category-tabs::-webkit-scrollbar {
@@ -337,3 +345,132 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(10, 32, 25, 0.20);
 }
+
+/* Out of Stock & Inventory Telemetry on Storefront Cards */
+.card-out-of-stock {
+  opacity: 0.95;
+}
+
+.media-out-of-stock .product-card-img {
+  filter: grayscale(40%) contrast(90%);
+}
+
+.badge-sold-out {
+  background: #dc2626;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+}
+
+.stock-pill-sold-out {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fecaca !important;
+}
+
+.stock-pill-low {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+}
+
+.live-batch-dot.dot-red {
+  background: #dc2626;
+}
+
+.live-batch-dot.dot-amber {
+  background: #f59e0b;
+}
+
+.variant-btn-disabled {
+  text-decoration: line-through;
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: var(--color-slate-100) !important;
+}
+
+.add-cart-btn.btn-sold-out {
+  background: var(--color-slate-300);
+  color: var(--color-slate-600);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.add-cart-btn.btn-sold-out:hover {
+  background: var(--color-slate-300);
+  transform: none;
+}
+
+/* ==========================================================
+   Catalog & Products Responsive Breakpoints
+   ========================================================== */
+@media (max-width: 1024px) {
+  .catalog-section {
+    padding: 3.5rem 0;
+  }
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-section {
+    padding: 2.5rem 0;
+  }
+  .search-and-sort {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .search-input-box {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .sort-select {
+    width: 100%;
+  }
+  .category-tabs {
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .product-card-media {
+    height: 200px;
+  }
+  .product-card-body {
+    padding: 1.25rem;
+  }
+  .current-price {
+    font-size: 1.2rem;
+  }
+  .add-cart-btn {
+    padding: 0.55rem 0.95rem;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-card-body {
+    padding: 1rem;
+  }
+  .card-variants-selector {
+    margin-top: 0.75rem;
+  }
+  .variant-pills-group {
+    gap: 0.35rem;
+  }
+}
+
+

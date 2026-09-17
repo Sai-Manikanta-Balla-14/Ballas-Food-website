@@ -104,26 +104,26 @@ export const CustomBoxBuilder = () => {
 
         <div className="custom-builder-grid">
           {/* Left Column: Visual Box Compartment Chassis */}
-          <div>
+          <div className="custom-box-visualizer-col">
             <div className="box-chassis">
               <div className="box-lid-crest">
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <div className="box-lid-brand">
                   <img
                     src="/images/ballas_logo.jpg"
                     alt="Balla's Crest"
-                    style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1.5px solid var(--color-gold-400)" }}
+                    className="box-lid-logo"
                   />
                   <div>
-                    <div style={{ fontFamily: "var(--font-serif)", fontWeight: 800, fontSize: "1.1rem", color: "var(--color-gold-400)" }}>
+                    <div className="box-lid-title">
                       {selectedSize.label}
                     </div>
-                    <div style={{ fontSize: "0.72rem", color: "#cbd5e1" }}>
+                    <div className="box-lid-subtitle">
                       Artisanal Pure Cow Ghee Partition Tin
                     </div>
                   </div>
                 </div>
 
-                <div style={{ fontSize: "1.35rem", fontWeight: 800, color: "#ffffff" }}>
+                <div className="box-lid-price">
                   {formatPrice(selectedSize.price)}
                 </div>
               </div>
@@ -135,48 +135,48 @@ export const CustomBoxBuilder = () => {
                     key={idx}
                     className={`compartment-slot ${item ? "filled" : ""} ${idx === activeSlotIdx ? "active-slot-highlight" : ""}`}
                     onClick={() => setActiveSlotIdx(idx)}
-                    style={idx === activeSlotIdx ? { borderColor: "var(--color-gold-400)", boxShadow: "0 0 15px rgba(245, 158, 11, 0.35)" } : {}}
                   >
                     {item ? (
-                      <>
+                      <div className="slot-filled-content">
                         <img src={item.image} alt={item.name} className="slot-item-thumb" />
-                        <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>
+                        <span className="slot-item-name">
                           {item.name.replace("Balla's ", "")}
                         </span>
                         <button
                           className="slot-clear-btn"
                           onClick={(e) => handleClearSlot(idx, e)}
                           title="Remove item"
+                          aria-label={`Remove delicacy from Slot ${idx + 1}`}
                         >
                           <i className="fa-solid fa-xmark"></i>
                         </button>
-                      </>
+                      </div>
                     ) : (
-                      <>
-                        <i className="fa-solid fa-plus" style={{ fontSize: "1.2rem", color: "var(--color-gold-400)", marginBottom: "0.3rem" }}></i>
-                        <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
-                          {idx === activeSlotIdx ? "Select Item Below" : `Slot ${idx + 1}`}
-                        </span>
-                      </>
+                      <div className="slot-empty-content">
+                        <i className="fa-solid fa-plus slot-plus-icon"></i>
+                        <span className="slot-index-label">Slot {idx + 1}</span>
+                        {idx === activeSlotIdx && (
+                          <span className="slot-active-tag">Pick Below</span>
+                        )}
+                      </div>
                     )}
                   </div>
                 ))}
               </div>
 
               {/* Wax Seal Card Simulation */}
-              <div style={{ marginTop: "1.75rem", borderTop: "1px solid rgba(217, 119, 6, 0.3)", paddingTop: "1.25rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div>
-                  <span style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-gold-400)", fontWeight: 700 }}>
+              <div className="box-greeting-preview">
+                <div className="box-greeting-text">
+                  <span className="box-greeting-label">
                     Attached Greeting Note:
                   </span>
-                  <div style={{ fontSize: "0.85rem", color: "#fff", fontStyle: "italic", marginTop: "0.2rem" }}>
+                  <div className="box-greeting-msg">
                     "{giftNote.message.substring(0, 45)}..."
                   </div>
                 </div>
 
                 <div
                   className="wax-seal-option active"
-                  style={{ width: "36px", height: "36px" }}
                   title="Official Balla Wax Seal"
                 >
                   <i className={`fa-solid fa-${giftNote.waxSeal === "crown" ? "crown" : (giftNote.waxSeal === "diya" ? "fire" : "ribbon")}`}></i>
@@ -188,7 +188,7 @@ export const CustomBoxBuilder = () => {
           {/* Right Column: Controls, Sweets Tray & Card Editor */}
           <div className="custom-controls-card">
             {/* Step 1: Choose Box Size */}
-            <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, color: "var(--color-gold-400)", marginBottom: "0.6rem" }}>
+            <label className="custom-step-label">
               1. Choose Box Architecture & Capacity:
             </label>
             <div className="size-selector-pills">
@@ -198,14 +198,15 @@ export const CustomBoxBuilder = () => {
                   className={`size-pill-option ${size.id === selectedSize.id ? "active" : ""}`}
                   onClick={() => handleSizeChange(size)}
                 >
-                  <div style={{ fontWeight: 800, fontSize: "0.95rem" }}>{size.slots} Delicacies</div>
-                  <div style={{ fontSize: "0.82rem", marginTop: "0.15rem" }}>{formatPrice(size.price)}</div>
+                  <div className="size-pill-slots">{size.slots} Delicacies</div>
+                  <div className="size-pill-price">{formatPrice(size.price)}</div>
+                  {size.isPopular && <span className="size-popular-badge">Popular</span>}
                 </div>
               ))}
             </div>
 
             {/* Step 2: Choose Sweet for Selected Slot */}
-            <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, color: "var(--color-gold-400)", marginBottom: "0.6rem" }}>
+            <label className="custom-step-label">
               2. Filling Slot #{activeSlotIdx + 1} — Click to Assign Delicacy:
             </label>
             <div className="sweet-picker-tray">
@@ -216,10 +217,10 @@ export const CustomBoxBuilder = () => {
                   onClick={() => handlePickSweet(prod)}
                 >
                   <img src={prod.image} alt={prod.name} className="sweet-picker-img" />
-                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#fff", lineHeight: 1.2 }}>
+                  <div className="sweet-picker-name">
                     {prod.name.replace("Balla's ", "")}
                   </div>
-                  <span style={{ fontSize: "0.68rem", color: "var(--color-gold-400)", marginTop: "0.2rem" }}>
+                  <span className="sweet-picker-cat">
                     {prod.category}
                   </span>
                 </div>
@@ -228,22 +229,22 @@ export const CustomBoxBuilder = () => {
 
             {/* Step 3: Personalized Wax-Sealed Gift Card */}
             <div className="gift-message-envelope">
-              <label style={{ display: "block", fontSize: "0.82rem", fontWeight: 800, color: "var(--color-primary-900)", marginBottom: "0.4rem" }}>
+              <label className="gift-envelope-title">
                 3. Personalized Card & Wax Seal Stamp:
               </label>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginBottom: "0.6rem" }}>
+              <div className="gift-name-fields">
                 <input
                   type="text"
                   placeholder="Recipient Name"
-                  style={{ padding: "0.4rem 0.6rem", fontSize: "0.8rem", border: "1px solid var(--border-medium)", borderRadius: "4px" }}
+                  className="gift-input"
                   value={giftNote.recipient}
                   onChange={(e) => setGiftNote(prev => ({ ...prev, recipient: e.target.value }))}
                 />
                 <input
                   type="text"
                   placeholder="Your Name (Sender)"
-                  style={{ padding: "0.4rem 0.6rem", fontSize: "0.8rem", border: "1px solid var(--border-medium)", borderRadius: "4px" }}
+                  className="gift-input"
                   value={giftNote.sender}
                   onChange={(e) => setGiftNote(prev => ({ ...prev, sender: e.target.value }))}
                 />
@@ -252,13 +253,13 @@ export const CustomBoxBuilder = () => {
               <textarea
                 rows={2}
                 placeholder="Personal message for the card..."
-                style={{ width: "100%", padding: "0.4rem 0.6rem", fontSize: "0.8rem", border: "1px solid var(--border-medium)", borderRadius: "4px", resize: "none" }}
+                className="gift-textarea"
                 value={giftNote.message}
                 onChange={(e) => setGiftNote(prev => ({ ...prev, message: e.target.value }))}
               />
 
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "0.6rem" }}>
-                <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--color-slate-700)" }}>
+              <div className="gift-wax-row">
+                <span className="gift-wax-label">
                   Choose Wax Stamp:
                 </span>
                 <div className="wax-seal-selector">
@@ -289,12 +290,11 @@ export const CustomBoxBuilder = () => {
 
             {/* Add to Cart CTA */}
             <button
-              className="btn-gold"
-              style={{ width: "100%", padding: "0.95rem", fontSize: "1rem" }}
+              className="btn-gold custom-add-cart-btn"
               onClick={handleAddBoxToCart}
             >
-              <i className="fa-solid fa-gift" style={{ marginRight: "0.5rem" }}></i>
-              Add Curated Box to Cart ({formatPrice(selectedSize.price)})
+              <i className="fa-solid fa-gift"></i>
+              <span>Add Curated Box to Cart ({formatPrice(selectedSize.price)})</span>
             </button>
           </div>
         </div>
